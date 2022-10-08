@@ -1,6 +1,8 @@
 package lk.quadrate.client;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.Proxy;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -17,6 +19,9 @@ public class Client {
             this.username = username;
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            String canonicalHostName = socket.getLocalAddress().getCanonicalHostName();
+            String s = socket.getLocalSocketAddress().toString();
+            System.out.println(canonicalHostName + "Socket Address : " +s);
 
         }catch (IOException e){
             closeEverything(socket,bufferedReader,bufferedWriter);
@@ -80,7 +85,7 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your username for the group chat");
         String username = scanner.nextLine();
-        Socket socket1 = new Socket("localhost",1572);
+        Socket socket1 = new Socket("0.0.0.0",15676);
         Client client = new Client(socket1,username);
         client.listenForMessage();
         client.sendMessage();
